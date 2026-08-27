@@ -1,9 +1,11 @@
 import React from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const plans = [
   {
     name: 'Confidra Core 90',
+    amount: 11999,
     original: '₹14,999',
     price: '₹11,999',
     saving: 'Save ₹3,000',
@@ -15,6 +17,7 @@ const plans = [
   },
   {
     name: 'Confidra Plus 90',
+    amount: 17999,
     original: '₹21,999',
     price: '₹17,999',
     saving: 'Save ₹4,000',
@@ -26,6 +29,7 @@ const plans = [
   },
   {
     name: 'Confidra Continuum 365',
+    amount: 39999,
     original: '₹49,999',
     price: '₹39,999',
     saving: 'Save ₹10,000',
@@ -39,6 +43,42 @@ const plans = [
 
 export default function Plans() {
   const navigate = useNavigate()
+  const [loadingPlan, setLoadingPlan] = useState('')
+  const [status, setStatus] = useState({ message: '', error: false })
+
+  const startEnrollment = async (plan) => {
+    setLoadingPlan(plan.name)
+    setStatus({ message: '', error: false })
+    try {
+      const user = JSON.parse(sessionStorage.getItem('confidraUser') || 'null')
+      const response = await fetch('/api/payments/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planName: plan.name, amount: plan.amount, userId: user?.id || null })
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.detail || 'Unable to start payment.')
+      if (!window.Razorpay) throw new Error('Payment checkout is unavailable. Please refresh and try again.')
+
+      const checkout = new window.Razorpay({
+        key: result.keyId,
+        amount: result.amount,
+        currency: result.currency,
+        name: 'Confidra',
+        description: plan.name,
+        order_id: result.orderId,
+        prefill: { name: user?.fullName || '', email: user?.email || '', contact: user?.phone || '' },
+        theme: { color: '#087f72' },
+        handler: () => setStatus({ message: 'Payment received. Your enrollment request has been submitted.', error: false })
+      })
+      checkout.on('payment.failed', () => setStatus({ message: 'Payment was not completed. Please try again.', error: true }))
+      checkout.open()
+    } catch (error) {
+      setStatus({ message: error.message || 'Unable to connect to the payment service.', error: true })
+    } finally {
+      setLoadingPlan('')
+    }
+  }
 
   return (
     <main className="plans-page">
@@ -66,10 +106,12 @@ export default function Plans() {
               <ul>
                 {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
               </ul>
+              <button className="btn primary plan-enroll" onClick={() => startEnrollment(plan)} disabled={loadingPlan !== ''}>{loadingPlan === plan.name ? 'Opening payment...' : 'Start enrollment'}</button>
             </article>
           ))}
         </section>
 
+        {status.message && <p className={`payment-status ${status.error ? 'error' : 'success'}`}>{status.message}</p>}
         <p className="plans-note">Your doctor sets the programme right for you at the consultation.</p>
       </div>
     </main>

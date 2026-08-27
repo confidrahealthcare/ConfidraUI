@@ -623,6 +623,11 @@ a:hover { opacity: 0.8; }
 .plan-card ul { list-style: none; padding: 0; margin: 16px 0 0; }
 .plan-card li { position: relative; padding-left: 27px; margin-bottom: 13px; color: #304766; line-height: 1.4; }
 .plan-card li::before { content: '✓'; position: absolute; left: 0; color: #258578; font-weight: 800; }
+.plan-enroll { margin-top: 8px; }
+.payment-status { margin-top: 18px; padding: 12px 14px; font-weight: 600; }
+.payment-status.success { background: var(--teal-light); color: var(--teal-dark); }
+.payment-status.error { background: #fff0ed; color: #b42318; }
+.selected-plan { background: var(--teal-light); color: var(--teal-dark); padding: 10px 12px; }
 .plans-note { color: #258578; font-size: 1.35rem; font-weight: 800; margin: 17px 0 0; }
 .consultation-page { min-height: calc(100vh - 81px); background: #f7f8f6; }
 .consultation-container { max-width: 760px; margin: 0 auto; padding: 38px 24px 72px; }

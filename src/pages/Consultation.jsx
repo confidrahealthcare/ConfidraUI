@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 export default function Consultation() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ fullName: '', phone: '', email: '' })
+  const [searchParams] = useSearchParams()
+  const selectedPlan = searchParams.get('plan') || ''
+  const [form, setForm] = useState({ fullName: '', phone: '', email: '', planName: selectedPlan })
   const [status, setStatus] = useState({ message: '', error: false })
   const [loading, setLoading] = useState(false)
 
@@ -23,7 +25,7 @@ export default function Consultation() {
       const result = await response.json()
       if (!response.ok) throw new Error(result.detail || 'Unable to submit your request.')
       setStatus({ message: result.message, error: false })
-      setForm({ fullName: '', phone: '', email: '' })
+      setForm({ fullName: '', phone: '', email: '', planName: selectedPlan })
     } catch (error) {
       setStatus({ message: error.message || 'Unable to connect to the API.', error: true })
     } finally {
@@ -39,6 +41,7 @@ export default function Consultation() {
           <span className="eyebrow">SPEAK WITH OUR TEAM</span>
           <h1>Talk to a Clinical Pharmacist</h1>
           <p>Share your details and our care team will contact you to arrange a conversation.</p>
+          {selectedPlan && <p className="selected-plan">Selected programme: <strong>{selectedPlan}</strong></p>}
           {status.message && <p className={`form-status ${status.error ? 'error' : 'success'}`}>{status.message}</p>}
           <form onSubmit={submit}>
             <label htmlFor="consultation-full-name">Full name</label>
