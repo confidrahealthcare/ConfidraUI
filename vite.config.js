@@ -5,9 +5,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    proxy: {
+      '/api': {
+        target: 'https://localhost:7025',
+        secure: false
+      }
+    },
     watch: {
       // ignore all pdf files in the project
-      ignored: ['**/*.pdf']
+      ignored: ['**/*.pdf', '**/.vs/**']
     }
   }
 })

@@ -33,7 +33,7 @@ export default function Dashboard() {
             <button className="profile-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open profile menu">
               <span className="avatar">{initials}</span>
               <span className="profile-name">{name}</span>
-              <span className="chevron">⌄</span>
+              <span className="chevron" aria-hidden="true" />
             </button>
             {menuOpen && (
               <div className="profile-menu">
@@ -64,7 +64,7 @@ export default function Dashboard() {
             <span className="eyebrow">YOUR JOURNEY</span>
             <h2>Small steps. Meaningful change.</h2>
             <p>Your care team is here to help you move forward with clarity and confidence.</p>
-            <button className="btn primary">View my care plan</button>
+            <button className="btn primary" onClick={() => navigate('/plans')}>View my care plan</button>
           </div>
           <div className="journey-mark"><span>CONFIDRA</span><b>01</b></div>
         </section>
