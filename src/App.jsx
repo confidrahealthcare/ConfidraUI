@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom'
 import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
 import Plans from './pages/Plans'
+import Consultation from './pages/Consultation'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/plans" element={<Plans />} />
+        <Route path="/consultation" element={<Consultation />} />
         <Route path="/" element={<>
           <Hero />
           <main className="container">

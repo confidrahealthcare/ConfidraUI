@@ -11,7 +11,7 @@ export default function Hero() {
           <p className="lead">Confidra brings specialist doctors, a dedicated clinical pharmacist, home diagnostics, and continuous coaching together in one connected platform.</p>
           <div className="hero-ctas">
             <button className="btn primary" onClick={() => navigate('/auth')}>Start Your Care Journey</button>
-            <button className="btn secondary" onClick={() => navigate('/auth#talk')}>Talk to a Clinical Pharmacist</button>
+            <button className="btn secondary" onClick={() => navigate('/consultation')}>Talk to a Clinical Pharmacist</button>
             <a className="tertiary-link" href="#programs">Explore Our Programs</a>
           </div>
         </div>

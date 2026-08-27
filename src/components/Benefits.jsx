@@ -15,7 +15,7 @@ export default function Benefits(){
       <h2>Patient Benefits</h2>
       <ul className="benefit-list">
         {benefits.map((b, i) => (
-          <li key={i} className="benefit-item">🔹 {b}</li>
+          <li key={i} className="benefit-item"><span className="benefit-marker" aria-hidden="true">◆</span><span>{b}</span></li>
         ))}
       </ul>
     </section>

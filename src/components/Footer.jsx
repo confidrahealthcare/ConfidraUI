@@ -1,5 +1,5 @@
 import React from 'react'
-import logoImg from '../assets/og-image.png'
+import logoImg from '../assets/Logo.png'
 
 export default function Footer(){
   return (

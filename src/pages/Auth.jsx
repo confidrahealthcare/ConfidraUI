@@ -35,8 +35,14 @@ export default function Auth() {
 
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      const result = await response.json()
-      if (!response.ok) throw new Error(result.detail || 'Request failed.')
+      const responseText = await response.text()
+      let result = {}
+      try {
+        result = responseText ? JSON.parse(responseText) : {}
+      } catch {
+        result = {}
+      }
+      if (!response.ok) throw new Error(result.detail || 'The server returned an unexpected response. Please try again.')
       if (mode === 'forgot') {
         if (resetStep === 'email') {
           setResetStep('otp')
