@@ -9,6 +9,7 @@ import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
 import Plans from './pages/Plans'
 import Consultation from './pages/Consultation'
+import HowToStart from './components/HowToStart'
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <main className="container">
             <Stats />
             <Benefits />
+            <HowToStart />
             <section className="company-story">
               <h2>Company Story</h2>
               <p>Confidra was built to close the gap in fragmented chronic care. We bring physicians, clinical pharmacists, diagnostics, nutrition experts, and wellness coaches onto one connected platform.</p>
