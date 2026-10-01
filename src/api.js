@@ -28,7 +28,7 @@ export async function api(path, method = "GET", data) {
       "The care service could not be reached. Your information has not been saved.",
     );
   }
-  if (response.status === 401) {
+  if (response.status === 401 && path !== "/auth/login") {
     csrf = undefined;
     throw Object.assign(new Error("Please sign in to continue."), {
       status: 401,

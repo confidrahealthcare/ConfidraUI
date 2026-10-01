@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+const fresh=()=>import('../src/api.js?test='+crypto.randomUUID());
+test('failed login preserves the actionable server message',async()=>{const original=global.fetch;try{global.fetch=async url=>url.endsWith('/csrf')?Response.json({token:'synthetic-csrf'}):Response.json({message:'Sign-in unsuccessful. Check your details or try again later.'},{status:401});const{api}=await fresh();await assert.rejects(api('/auth/login','POST',{}),/Sign-in unsuccessful/);}finally{global.fetch=original;}});
+test('expired session instructs sign in and marks authorization failure',async()=>{const original=global.fetch;try{global.fetch=async()=>new Response(null,{status:401});const{api}=await fresh();await assert.rejects(api('/care/logs'),e=>e.status===401&&e.message==='Please sign in to continue.');}finally{global.fetch=original;}});
+test('a successful empty mutation is not parsed as JSON or reported as failure',async()=>{const original=global.fetch;try{global.fetch=async url=>url.endsWith('/csrf')?Response.json({token:'synthetic-csrf'}):new Response(null,{status:204});const{api}=await fresh();assert.equal(await api('/care/consents','POST',{purpose:'HealthData',granted:true}),null);}finally{global.fetch=original;}});
