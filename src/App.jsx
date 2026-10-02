@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "./api";
+import Checkout from "./Checkout";
+import Activation from "./Activation";
 
 const site = import.meta.env.VITE_PUBLIC_SITE_URL || "https://confidra.health";
 const money = (n) =>
@@ -640,10 +642,10 @@ function Patient({ view, act }) {
       <section>
         <h2>Your payment records</h2>
         <p>
-          Programme payments are currently arranged through the care team after
-          suitability and terms are confirmed. This portal does not collect
-          payment details.
+          Confirm programme suitability and current terms with the care team.
+          When enabled, payment details are handled by the payment provider.
         </p>
+        <Checkout refresh={refresh} />
         {data.payments.length ? (
           data.payments.map((p) => (
             <article className="card" key={p.orderId}>
@@ -912,6 +914,7 @@ function Professional({ user, view, act }) {
               </div>
               <LogTable logs={patient.logs} />
               <Reviews reviews={patient.reviews} />
+              <Activation key={selected} patientId={selected} />
               <form className="card" onSubmit={review}>
                 <h3>Add your clinical review</h3>
                 <p>
