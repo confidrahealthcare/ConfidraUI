@@ -1,13 +1,15 @@
-# Confidra
+# Confidra — ConfidraUI
 
-This is a minimal React + Vite scaffold for **Confidra**. Place your requirements and additional assets inside this folder and I'll integrate them.
+Authenticated patient and verified-professional care interface. Separate from confidra.health public content.
 
-Quick start:
+## Local validation
 
-```bash
-cd confidraweb
-npm install
-npm run dev
+```text
+pnpm install --frozen-lockfile
+pnpm build
+pnpm dev
 ```
 
-Then open the local dev URL shown by Vite.
+## Release status
+
+Feature branch only. Do not deploy to production. See `docs/RELEASE.md` for integration limitations and approval gates. No credentials or real patient data belong in this repository.
